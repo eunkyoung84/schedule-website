@@ -3937,10 +3937,14 @@ function subscribePlan(){
 
 function seedStaticEntries(){
   const STATIC_ENTRIES = {"d1-0":[{"id":"1vhmuwil39ud3l0skid7","authorId":"u_Z59sBQIyq4oJvBL3VjFOEg","createdAt":1791782760138,"dayId":"d1","itemId":"d1-0","text":"출국전날 카톡으로 인도장 위치 발송됨\n제1여객터미널 (T1)\n• 위치: 면세지역 4층 (에스컬레이터 이용)\n• 동편 인도장: 11번 게이트 맞은편 (에스컬레이터 탑승)\n• 서편 인도장: 43번 게이트 부근 (마티나 라운지 근처)\n• 가는 법:\n1. 출국심사를 마치고 면세지역으로 들어갑니다.\n2. 탑승권에 적힌 게이트 위치에 따라 동편(11번 게이트 쪽) 또는 서편(43번 게이트 쪽)으로 이동합니다.\n3. 해당 게이트 부근에 있는 4층 올라가는 에스컬레이터를 타고 올라가면 롯데면세점 인도장이 나옵니다.\n\n🔗 https://m.blog.naver.com/poopoobubu/224121690413","type":"note"}],"it_mv4vt7ba0hyok":[{"id":"7ryyswbirha1okulrinn","authorId":"u_Z59sBQIyq4oJvBL3VjFOEg","createdAt":1791787239334,"dayId":"d1","itemId":"it_mv4vt7ba0hyok","label":"인천공항 혼잡도","type":"link","url":"https://search.naver.com/search.naver?where=nexearch&sm=tab_etc&qvt=0&query=%EC%9D%B8%EC%B2%9C%EA%B3%B5%ED%95%AD%20%ED%98%BC%EC%9E%A1%EB%8F%84"}]};
+  const famEls = {};
+  document.querySelectorAll(".fam[data-fam]").forEach(function(el){ famEls[el.getAttribute("data-fam")] = el; });
   planDays.forEach(day=>{
     day.items.forEach(it=>{
-      entriesByItem[it.id] = STATIC_ENTRIES[it.id] || [];
-      renderFamList(it.id);
+      const entries = STATIC_ENTRIES[it.id] || [];
+      entriesByItem[it.id] = entries;
+      if(entries.length){ renderFamList(it.id); }
+      else if(famEls[it.id]){ famEls[it.id].hidden = true; }
     });
   });
   document.querySelectorAll(".fam-add").forEach(function(el){ el.hidden = true; });
@@ -4164,10 +4168,14 @@ async function buildShareHtml(){
   if(html.includes(ensureCapsAnchor)){
     const helper = 'function seedStaticEntries(){\n' +
       '  const STATIC_ENTRIES = ' + JSON.stringify(entriesByItemStatic) + ';\n' +
+      '  const famEls = {};\n' +
+      '  document.querySelectorAll(".fam[data-fam]").forEach(function(el){ famEls[el.getAttribute("data-fam")] = el; });\n' +
       '  planDays.forEach(day=>{\n' +
       '    day.items.forEach(it=>{\n' +
-      '      entriesByItem[it.id] = STATIC_ENTRIES[it.id] || [];\n' +
-      '      renderFamList(it.id);\n' +
+      '      const entries = STATIC_ENTRIES[it.id] || [];\n' +
+      '      entriesByItem[it.id] = entries;\n' +
+      '      if(entries.length){ renderFamList(it.id); }\n' +
+      '      else if(famEls[it.id]){ famEls[it.id].hidden = true; }\n' +
       '    });\n' +
       '  });\n' +
       '  document.querySelectorAll(".fam-add").forEach(function(el){ el.hidden = true; });\n' +
