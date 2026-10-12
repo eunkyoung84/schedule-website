@@ -212,13 +212,7 @@
 
               <div class="fam rounded-xl bg-slate-50 p-3" data-fam="it_mv4vt7ba0hyok">
                 <h4 class="mb-2 text-xs font-bold text-slate-500">가족 메모 · 링크 · 사진/PDF</h4>
-                <div class="fam-list mb-2.5 space-y-2" id="fam-list-it_mv4vt7ba0hyok"><div class="rounded-xl border border-slate-200 bg-white p-3">
-    <div class="flex items-center justify-between gap-2 text-xs text-slate-400">
-      <span>너구리 · 10. 12. 오후 03:40</span>
-      <span class="flex gap-2 text-[11px] font-semibold"><button class="text-slate-400 hover:text-blue-600" data-edit="7ryyswbirha1okulrinn" type="button">수정</button><button class="text-slate-400 hover:text-rose-600" data-del="7ryyswbirha1okulrinn" type="button">삭제</button></span>
-    </div>
-    <div class="mt-1"><a class="text-sm font-semibold text-blue-600 hover:text-blue-700" href="https://search.naver.com/search.naver?where=nexearch&amp;sm=tab_etc&amp;qvt=0&amp;query=%EC%9D%B8%EC%B2%9C%EA%B3%B5%ED%95%AD%20%ED%98%BC%EC%9E%A1%EB%8F%84" target="_blank" rel="noopener">🔗 인천공항 혼잡도</a></div>
-  </div></div>
+                <div class="fam-list mb-2.5 space-y-2" id="fam-list-it_mv4vt7ba0hyok"><p class="fam-empty text-xs text-slate-400">불러오는 중…</p></div>
                 <div class="fam-add space-y-2">
                   <textarea class="ipt" data-note-input="" rows="2" placeholder="메모를 남겨보세요 (줄바꿈 가능, 링크를 쓰면 자동으로 눌러서 이동할 수 있어요)"></textarea>
                   <div class="flex justify-end">
@@ -278,23 +272,7 @@
 
               <div class="fam rounded-xl bg-slate-50 p-3" data-fam="d1-0">
                 <h4 class="mb-2 text-xs font-bold text-slate-500">가족 메모 · 링크 · 사진/PDF</h4>
-                <div class="fam-list mb-2.5 space-y-2" id="fam-list-d1-0"><div class="rounded-xl border border-slate-200 bg-white p-3">
-    <div class="flex items-center justify-between gap-2 text-xs text-slate-400">
-      <span>너구리 · 10. 12. 오후 02:26</span>
-      <span class="flex gap-2 text-[11px] font-semibold"><button class="text-slate-400 hover:text-blue-600" data-edit="1vhmuwil39ud3l0skid7" type="button">수정</button><button class="text-slate-400 hover:text-rose-600" data-del="1vhmuwil39ud3l0skid7" type="button">삭제</button></span>
-    </div>
-    <div class="mt-1 whitespace-pre-wrap break-words text-sm text-slate-700">출국전날 카톡으로 인도장 위치 발송됨
-제1여객터미널 (T1)
-• 위치: 면세지역 4층 (에스컬레이터 이용)
-• 동편 인도장: 11번 게이트 맞은편 (에스컬레이터 탑승)
-• 서편 인도장: 43번 게이트 부근 (마티나 라운지 근처)
-• 가는 법:
-1. 출국심사를 마치고 면세지역으로 들어갑니다.
-2. 탑승권에 적힌 게이트 위치에 따라 동편(11번 게이트 쪽) 또는 서편(43번 게이트 쪽)으로 이동합니다.
-3. 해당 게이트 부근에 있는 4층 올라가는 에스컬레이터를 타고 올라가면 롯데면세점 인도장이 나옵니다.
-
-🔗 <a href="https://m.blog.naver.com/poopoobubu/224121690413" target="_blank" rel="noopener">https://m.blog.naver.com/poopoobubu/224121690413</a></div>
-  </div></div>
+                <div class="fam-list mb-2.5 space-y-2" id="fam-list-d1-0"><p class="fam-empty text-xs text-slate-400">불러오는 중…</p></div>
                 <div class="fam-add space-y-2">
                   <textarea class="ipt" data-note-input="" rows="2" placeholder="메모를 남겨보세요 (줄바꿈 가능, 링크를 쓰면 자동으로 눌러서 이동할 수 있어요)"></textarea>
                   <div class="flex justify-end">
@@ -3965,6 +3943,7 @@ function seedStaticEntries(){
       renderFamList(it.id);
     });
   });
+  document.querySelectorAll(".fam-add").forEach(function(el){ el.hidden = true; });
 }
 
 async function ensureCaps(){
@@ -4191,6 +4170,7 @@ async function buildShareHtml(){
       '      renderFamList(it.id);\n' +
       '    });\n' +
       '  });\n' +
+      '  document.querySelectorAll(".fam-add").forEach(function(el){ el.hidden = true; });\n' +
       '}\n\n';
     html = html.replace(ensureCapsAnchor, helper + ensureCapsAnchor);
     html = html.replace(
