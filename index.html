@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>오사카 가족여행 2026</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Pretendard:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Pretendard', 'Noto Sans KR', 'sans-serif'],
+                        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { 
+            -webkit-font-smoothing: antialiased; 
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #f8fafc;
+        }
+        
+        /* 가로 스크롤바 숨기기 */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* 아코디언 애니메이션 (Grid 활용) */
+        .detail-wrapper {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.3s ease-out;
+        }
+        .stop[data-open="true"] .detail-wrapper {
+            grid-template-rows: 1fr;
+        }
+        .detail-inner {
+            overflow: hidden;
+        }
+
+        /* 화살표 회전 */
+        .chev-icon { transition: transform 0.3s ease; }
+        .stop[data-open="true"] .chev-icon { transform: rotate(180deg); }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <header class="bg-white border-b border-slate-200 pt-10 pb-6 px-5 relative overflow-hidden">
+        <!-- 배경 데코레이션 -->
+        <div class="absolute -top-24 -right-24 w-64 h-64 bg-brand-50 rounded-full blur-3xl opacity-60 pointer-events-none"></div>
+        
+        <div class="max-w-2xl mx-auto relative z-10">
+            <div class="inline-block px-3 py-1 bg-brand-50 text-brand-600 rounded-full text-xs font-bold tracking-wider mb-4">
+                FAMILY TRIP · OSAKA
+            </div>
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-2">오사카 가족여행</h1>
+            <p class="text-sm font-medium text-slate-500 flex items-center gap-2 mb-6">
+                <i class="ph ph-calendar-blank text-lg"></i> 2026.10.22(목) → 10.25(일) · 3박 4일
+            </p>
+            
+            <div class="flex flex-wrap gap-2 mb-6">
+                <div class="bg-white border border-slate-200 rounded-full px-3 py-1.5 text-xs shadow-sm flex items-center gap-1.5">
+                    <span class="font-bold text-slate-700">너구리네</span> <span class="text-slate-400">4명</span>
+                </div>
+                <div class="bg-white border border-slate-200 rounded-full px-3 py-1.5 text-xs shadow-sm flex items-center gap-1.5">
+                    <span class="font-bold text-slate-700">하마네</span> <span class="text-slate-400">3명</span>
+                </div>
+                <div class="bg-white border border-slate-200 rounded-full px-3 py-1.5 text-xs shadow-sm flex items-center gap-1.5">
+                    <span class="font-bold text-slate-700">타조네</span> <span class="text-slate-400">2명</span>
+                </div>
+            </div>
+
+            <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 text-sm text-amber-800 leading-relaxed shadow-sm">
+                <b class="flex items-center gap-1 mb-1 text-amber-900"><i class="ph-fill ph-warning-circle text-base"></i> 안내사항</b>
+                시간은 평균 이동 소요시간을 바탕으로 한 추정치입니다. <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-700 mx-1 border border-amber-200">확인 필요</span> 항목은 현지 도착 전 다시 한번 체크해 주세요!
+            </div>
+        </div>
+    </header>
+
+    <nav class="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-2xl mx-auto px-4 py-3">
+            <div class="flex gap-2 overflow-x-auto no-scrollbar" id="daynav">
+                <!-- JS Inject -->
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-2xl mx-auto px-4 py-8" id="days">
+        <!-- JS Inject -->
+    </main>
+
+    <footer class="max-w-2xl mx-auto px-5 py-10 mt-8 border-t border-slate-200 text-center text-xs text-slate-400 leading-relaxed">
+        <p class="mb-2">정보 기준일 2026.10.12 · 환율·요금·운영시간은 변동될 수 있습니다.</p>
+        <p>우리 가족 넷(너구리네·하마네·타조네)을 위한 오사카 여행 가이드 ✈️</p>
+    </footer>
+
+    <script>
+        const CAT = {
+            move: { label: '이동', icon: 'ph-car', colorBg: 'bg-blue-100', colorText: 'text-blue-700', colorRing: 'ring-blue-200' },
+            food: { label: '식사', icon: 'ph-fork-knife', colorBg: 'bg-orange-100', colorText: 'text-orange-700', colorRing: 'ring-orange-200' },
+            sight: { label: '관광', icon: 'ph-camera', colorBg: 'bg-emerald-100', colorText: 'text-emerald-700', colorRing: 'ring-emerald-200' },
+            play: { label: '체험', icon: 'ph-ticket', colorBg: 'bg-purple-100', colorText: 'text-purple-700', colorRing: 'ring-purple-200' },
+            shop: { label: '쇼핑', icon: 'ph-shopping-bag', colorBg: 'bg-amber-100', colorText: 'text-amber-700', colorRing: 'ring-amber-200' },
+            stay: { label: '숙박', icon: 'ph-bed', colorBg: 'bg-indigo-100', colorText: 'text-indigo-700', colorRing: 'ring-indigo-200' },
+        };
+
+        const DAYS = [
+        {
+          id:'d1', tab:'1일차', date:'10.22(목)', title:'입국 & 도톤보리의 밤',
+          sub:'인천 출발 → 간사이공항 → 우메다 → 도톤보리 크루즈',
+          items:[
+            {time:'07:10', cat:'move', title:'인천공항 출발', teaser:'인천 → 간사이 직항, 평균 비행시간 약 1시간 50분', d:{story:'인천↔간사이 구간은 시차가 없어 출발·도착 시각을 그대로 비교할 수 있어요. 항공사별로 1시간40분~2시간 정도 걸립니다.', note:'성수기에는 국제선 체크인에 출발 3시간 전 도착을 권장해요.'}},
+            {time:'09:00', cat:'move', title:'간사이공항(KIX) 도착', teaser:'입국심사·수하물 수령 후 리무진버스로 이동', d:{address:'오사카부 센난군 다지리초 간사이공항', mapQuery:'関西国際空港', story:'간사이공항은 오사카만의 인공섬 위에 지어진 24시간 공항으로, 세계 최초의 완전 해상 공항이라는 기록을 갖고 있어요.'}},
+            {time:'10:00', cat:'move', title:'리무진버스 탑승 → 오사카역', teaser:'제1터미널 5번 승강장 · 약 60~70분 소요', d:{price:'편도 성인 1,600엔', hours:'주간 20~30분 간격 운행', note:'2026.1.27 다이어 개편으로 우메다 측 정류장이 "오사카역앞"으로 변경되었어요.', flag:true}},
+            {time:'11:20', cat:'stay', title:'호텔 한큐 레스파이어 오사카', teaser:'체크인 전 짐 보관 후 가볍게 우메다 탐방', d:{address:'오사카부 오사카시 기타구 오후카초 1-1', phone:'06-6372-8006', hours:'체크인 15:00', mapQuery:'Hotel Hankyu Respire Osaka', note:'도착 즉시 프런트에 짐 보관 문의 필요.', flag:true}},
+            {time:'12:00', cat:'food', title:'점심 · 교토가츠큐', teaser:'규카츠(소고기 커틀릿) 전문점, LINKS UMEDA 8층', d:{address:'오사카부 오사카시 기타구 오후카초 1-1 LINKS UMEDA 8F', hours:'11:00~23:00', price:'1인 약 1,000~2,000엔', mapQuery:'牛カツ京都勝牛 ヨドバシLINKS梅田店', story:'두껍게 썬 소고기를 직화 철판에 직접 구워 먹는 규카츠 전문점입니다.'}},
+            {time:'14:30', cat:'sight', title:'우메다 스카이빌딩', teaser:'지상 173m 공중정원 전망대', d:{address:'오사카부 오사카시 기타구 오요도나카 1-1-88', hours:'09:30~22:30', price:'성인 2,000엔 · 어린이 500엔', mapQuery:'Umeda Sky Building', story:'1993년 완공된 쌍둥이 타워로, "미래의 개선문"이라는 별명을 가졌습니다.'}},
+            {time:'16:30', cat:'sight', title:'도톤보리 · 글리코상', teaser:'오사카를 상징하는 네온 간판 앞에서 인증샷', d:{mapQuery:'Glico Sign Dotonbori', story:'1935년 처음 세워진 이 간판은 오사카 시민의 자랑이기도 해요.'}},
+            {time:'18:00', cat:'food', title:'저녁 · 이치란 라멘', teaser:'1인 칸막이 좌석으로 유명한 돈코츠라멘', d:{address:'오사카부 오사카시 주오구 도톤보리 1-4-16', hours:'08:00~23:00', price:'기본 1,180엔', mapQuery:'一蘭 道頓堀店'}},
+            {time:'20:00', cat:'play', title:'윈더크루즈 승선', teaser:'약 20분간 도톤보리강 야경 투어', d:{price:'성인 2,000엔', story:'양옆 건물 간판들이 강물에 비치는 모습이 사진 찍기 좋은 포인트예요.'}},
+            {time:'22:00', cat:'stay', title:'숙소 복귀', teaser:'호텔 한큐 레스파이어 오사카', d:{}},
+          ]
+        },
+        {
+          id:'d2', tab:'2일차', date:'10.23(금)', title:'유니버설 스튜디오 재팬',
+          sub:'아침 식당 → USJ 종일 → 우메다 장어덮밥',
+          items:[
+            {time:'07:00', cat:'food', title:'아침 · 신파치식당', teaser:'숯불구이 건어물 정식 전문점', d:{hours:'07:00~24:00', mapQuery:'炭火焼干物定食 しんぱち食堂', note:'우메다에 3개 지점 존재, 가까운 곳 확인 필요', flag:true}},
+            {time:'08:30', cat:'move', title:'USJ 게이트 도착', teaser:'공식 개장 전부터 줄이 생기는 편', d:{mapQuery:'Universal Studios Japan'}},
+            {time:'09:00', cat:'play', title:'USJ 개장 · 입장', teaser:'1데이 패스 날짜별 변동 요금제', d:{note:'요금·시간은 날짜별 변동제라 출발 전 공식 사이트 확인 요망.', flag:true}},
+            {time:'10:00', cat:'play', title:'플라잉 다이너소어', teaser:'엎드려 타는 세계 최초의 비행 코스터', d:{story:'익룡처럼 엎드린 자세로 날아올라 급강하·급회전을 반복해요.'}},
+            {time:'15:00', cat:'play', title:'슈퍼 닌텐도 월드', teaser:'마리오 세계관의 테마 구역', d:{story:'파이프 터널을 지나 들어서면 마리오 시리즈의 배경이 실물 크기로 펼쳐져요.'}},
+            {time:'17:30', cat:'play', title:'해리포터 포비든 저니', teaser:'호그와트 성 내부 라이드', d:{}},
+            {time:'20:00', cat:'food', title:'저녁 · 우나기노 나카쇼', teaser:'비장탄 숯불구이 장어 히츠마부시', d:{hours:'11:00~23:00', price:'세트 3,900엔', mapQuery:'うなぎの中庄'}},
+            {time:'23:00', cat:'stay', title:'숙소 복귀', teaser:'호텔', d:{}},
+          ]
+        },
+        {
+          id:'d3', tab:'3일차', date:'10.24(토)', title:'나라·교토 버스투어',
+          sub:'사슴공원 → 청수사 → 아라시야마 → 도톤보리',
+          items:[
+            {time:'07:40', cat:'move', title:'버스투어 집결', teaser:'츠루통탄 소에몬초점 앞', d:{mapQuery:'つるとんたん 曽根崎店'}},
+            {time:'09:00', cat:'sight', title:'나라 사슴공원 & 동대사', teaser:'자유롭게 돌아다니는 사슴들과 대불전', d:{mapQuery:'Nara Park'}},
+            {time:'12:00', cat:'sight', title:'기요미즈데라 (청수사)', teaser:'못 하나 없이 지은 "무대" 건축', d:{price:'대인 500엔', mapQuery:'Kiyomizu-dera Temple'}},
+            {time:'15:30', cat:'sight', title:'아라시야마', teaser:'대나무숲 산책과 온천', d:{mapQuery:'Arashiyama Bamboo Grove'}},
+            {time:'18:00', cat:'food', title:'저녁 · 스시로', teaser:'가성비 좋은 회전초밥', d:{note:'현지에서 가까운 매장 검색 필요', flag:true}},
+            {time:'19:30', cat:'shop', title:'돈키호테 쇼핑', teaser:'24시간 영업 종합 쇼핑몰', d:{mapQuery:'Don Quijote Dotonbori'}},
+          ]
+        },
+        {
+          id:'d4', tab:'4일차', date:'10.25(일)', title:'아쉬운 귀국',
+          sub:'조식 → 체크아웃 → 간사이공항 → 인천',
+          items:[
+            {time:'07:00', cat:'food', title:'호텔 조식', teaser:'체크인 시 결제 1인 3,200엔', d:{}},
+            {time:'08:40', cat:'stay', title:'체크아웃', teaser:'짐 챙겨서 로비로', d:{}},
+            {time:'09:00', cat:'move', title:'리무진버스 탑승', teaser:'간사이공항으로 이동', d:{}},
+            {time:'12:00', cat:'move', title:'인천행 탑승', teaser:'즐거운 여행 마무리!', d:{}},
+          ]
+        }
+        ];
+
+        function escapeHtml(s) {
+            return (s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+        }
+
+        function stopHtml(item, idx) {
+            const c = CAT[item.cat];
+            const d = item.d || {};
+            
+            let kvRows = '';
+            if (d.address) kvRows += `<div class="flex flex-col sm:flex-row gap-1 sm:gap-4 py-2 border-b border-slate-100"><span class="text-xs font-semibold text-slate-400 w-16 shrink-0">주소</span><span class="text-sm text-slate-700">${escapeHtml(d.address)}</span></div>`;
+            if (d.phone) kvRows += `<div class="flex flex-col sm:flex-row gap-1 sm:gap-4 py-2 border-b border-slate-100"><span class="text-xs font-semibold text-slate-400 w-16 shrink-0">전화</span><span class="text-sm text-slate-700">${escapeHtml(d.phone)}</span></div>`;
+            if (d.hours) kvRows += `<div class="flex flex-col sm:flex-row gap-1 sm:gap-4 py-2 border-b border-slate-100"><span class="text-xs font-semibold text-slate-400 w-16 shrink-0">시간</span><span class="text-sm text-slate-700">${escapeHtml(d.hours)}</span></div>`;
+            if (d.price) kvRows += `<div class="flex flex-col sm:flex-row gap-1 sm:gap-4 py-2"><span class="text-xs font-semibold text-slate-400 w-16 shrink-0">가격</span><span class="text-sm text-slate-700">${escapeHtml(d.price)}</span></div>`;
+
+            return `
+            <div class="stop relative pl-10 sm:pl-14 py-4 group" data-open="false">
+                <!-- 타임라인 세로선 -->
+                <div class="absolute left-[15px] sm:left-[23px] top-0 bottom-0 w-[2px] bg-slate-200 group-last:bottom-auto group-last:h-full group-first:top-4"></div>
+                
+                <!-- 타임라인 원형 포인트 -->
+                <div class="absolute left-[8px] sm:left-[16px] top-9 w-4 h-4 rounded-full ring-4 ring-white ${c.colorBg} flex items-center justify-center z-10 shadow-sm">
+                    <div class="w-1.5 h-1.5 rounded-full bg-white"></div>
+                </div>
+
+                <!-- 카드 컨텐츠 -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden transition-all hover:shadow-md">
+                    <!-- 헤더 영역 (클릭 가능) -->
+                    <button class="w-full text-left px-4 py-4 sm:p-5 flex items-start gap-3 bg-white hover:bg-slate-50 transition-colors focus:outline-none" data-toggle="${idx}">
+                        
+                        <!-- 시간 & 아이콘 배치 -->
+                        <div class="shrink-0 flex flex-col items-center gap-2 mt-1">
+                            <span class="font-mono text-sm font-bold text-slate-700">${item.time}</span>
+                            <div class="w-8 h-8 rounded-lg ${c.colorBg} ${c.colorText} flex items-center justify-center">
+                                <i class="ph-fill ${c.icon} text-lg"></i>
+                            </div>
+                        </div>
+
+                        <!-- 타이틀 및 티저 -->
+                        <div class="flex-1 min-w-0 pr-2">
+                            <div class="flex items-center gap-2 flex-wrap mb-1">
+                                <span class="text-xs font-semibold px-2 py-0.5 rounded-md ${c.colorBg} ${c.colorText}">${c.label}</span>
+                                ${d.flag ? `<span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 border border-amber-200 flex items-center gap-1"><i class="ph-fill ph-warning-circle"></i>확인필요</span>` : ''}
+                            </div>
+                            <h3 class="text-base sm:text-lg font-bold text-slate-900 leading-tight mb-1 break-keep">${escapeHtml(item.title)}</h3>
+                            ${item.teaser ? `<p class="text-sm text-slate-500 leading-snug break-keep">${escapeHtml(item.teaser)}</p>` : ''}
+                        </div>
+                        
+                        <!-- 토글 화살표 -->
+                        <div class="shrink-0 text-slate-400 mt-2">
+                            <i class="ph ph-caret-down text-xl chev-icon"></i>
+                        </div>
+                    </button>
+
+                    <!-- 상세 정보 아코디언 영역 -->
+                    <div class="detail-wrapper bg-slate-50 border-t border-slate-100">
+                        <div class="detail-inner">
+                            <div class="p-4 sm:p-5 flex flex-col gap-4">
+                                ${kvRows ? `<div class="bg-white border border-slate-100 rounded-xl p-3 shadow-sm">${kvRows}</div>` : ''}
+                                
+                                ${d.story ? `
+                                <div class="bg-indigo-50/50 border border-indigo-100 rounded-xl p-4 text-sm text-indigo-900 leading-relaxed">
+                                    <i class="ph-fill ph-info text-indigo-500 mb-1 inline-block"></i> ${escapeHtml(d.story)}
+                                </div>` : ''}
+                                
+                                ${d.note ? `
+                                <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 text-sm text-amber-800 flex items-start gap-2 shadow-sm">
+                                    <i class="ph-fill ph-warning-circle text-amber-500 mt-0.5 text-base shrink-0"></i>
+                                    <p>${escapeHtml(d.note)}</p>
+                                </div>` : ''}
+                                
+                                ${d.mapQuery ? `
+                                <div>
+                                    <a class="inline-flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-white text-sm font-semibold rounded-xl px-4 py-2.5 transition-colors shadow-sm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(d.mapQuery)}">
+                                        <i class="ph-fill ph-map-pin"></i> 구글 지도로 보기
+                                    </a>
+                                </div>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+        }
+
+        function renderDays() {
+            const nav = document.getElementById('daynav');
+            const wrap = document.getElementById('days');
+            
+            // 네비게이션 탭 렌더링
+            nav.innerHTML = DAYS.map((d, i) => `
+                <button class="daytab shrink-0 flex flex-col items-center justify-center px-4 py-2 rounded-full border border-transparent transition-all outline-none ${i === 0 ? 'bg-slate-800 text-white shadow-md' : 'bg-white text-slate-500 hover:bg-slate-100 border-slate-200'}" data-day="${d.id}" aria-selected="${i === 0}">
+                    <span class="text-[10px] sm:text-xs font-mono font-bold opacity-70 mb-0.5">${d.date}</span>
+                    <span class="text-sm font-semibold">${d.tab}</span>
+                </button>
+            `).join('');
+
+            // 메인 콘텐츠 렌더링
+            wrap.innerHTML = DAYS.map((d, i) => `
+                <section class="day hidden opacity-0 transition-opacity duration-300" data-id="${d.id}" data-active="${i === 0}">
+                    <div class="mb-6 px-2 sm:px-4">
+                        <h2 class="text-2xl font-bold text-slate-900 mb-1">${d.title}</h2>
+                        <p class="text-sm text-slate-500 font-medium">${d.sub}</p>
+                    </div>
+                    <div class="flex flex-col">
+                        ${d.items.map((it, idx) => stopHtml(it, d.id + '-' + idx)).join('')}
+                    </div>
+                </section>
+            `).join('');
+
+            // 초기 활성화 탭 표시 (스타일 적용을 위해)
+            const firstDay = wrap.querySelector('.day');
+            if(firstDay) {
+                firstDay.classList.remove('hidden');
+                setTimeout(() => firstDay.classList.remove('opacity-0'), 50);
+            }
+
+            // 탭 클릭 이벤트 바인딩
+            nav.querySelectorAll('.daytab').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = btn.getAttribute('data-day');
+                    
+                    // 탭 스타일 변경
+                    nav.querySelectorAll('.daytab').forEach(b => {
+                        const isSelected = b === btn;
+                        b.setAttribute('aria-selected', isSelected);
+                        b.className = `daytab shrink-0 flex flex-col items-center justify-center px-4 py-2 rounded-full border border-transparent transition-all outline-none ${isSelected ? 'bg-slate-800 text-white shadow-md' : 'bg-white text-slate-500 hover:bg-slate-100 border-slate-200'}`;
+                    });
+                    
+                    // 콘텐츠 페이드인/아웃 로직
+                    wrap.querySelectorAll('.day').forEach(sec => {
+                        const isTarget = sec.getAttribute('data-id') === id;
+                        sec.setAttribute('data-active', isTarget);
+                        
+                        if(isTarget) {
+                            sec.classList.remove('hidden');
+                            setTimeout(() => sec.classList.remove('opacity-0'), 10);
+                        } else {
+                            sec.classList.add('hidden');
+                            sec.classList.add('opacity-0');
+                        }
+                    });
+                    
+                    // 스크롤 상단으로 이동
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            });
+
+            // 아코디언 토글 이벤트
+            wrap.querySelectorAll('[data-toggle]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const stop = btn.closest('.stop');
+                    const open = stop.getAttribute('data-open') === 'true';
+                    stop.setAttribute('data-open', !open);
+                });
+            });
+        }
+
+        // 초기화 실행
+        renderDays();
+    </script>
+</body>
+</html>
